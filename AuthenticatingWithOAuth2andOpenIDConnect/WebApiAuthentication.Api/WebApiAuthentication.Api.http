@@ -1,0 +1,7 @@
+@WebApiAuthentication.Api_HostAddress = https://localhost:7277
+
+GET {{WebApiAuthentication.Api_HostAddress}}/api/claims
+Accept: application/json
+  
+###
+ 
