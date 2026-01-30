@@ -5,7 +5,8 @@ namespace WebApiAuthentication.Api.Controllers;
 
 [ApiController]
 //[Authorize]
-[Authorize(Roles = "Admin")]
+//[Authorize(Roles = "Admin")]
+[Authorize(Policy = "MustBeGoldAndOlderThan21")]
 [Route("[controller]")]
 public class WeatherForecastController : ControllerBase
 {
