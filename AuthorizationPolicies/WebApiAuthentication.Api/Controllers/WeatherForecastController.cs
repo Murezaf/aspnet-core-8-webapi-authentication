@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebApiAuthentication.Api.Authorization;
 using WebApiAuthentication.Authorization;
 
 namespace WebApiAuthentication.Api.Controllers;
@@ -32,5 +33,17 @@ public class WeatherForecastController : ControllerBase
             Summary = Summaries[Random.Shared.Next(Summaries.Length)]
         })
         .ToArray();
+    }
+
+    [HttpGet("{id}")]
+    [Authorize(Policy = PolicyMetadata.MustHaveCreatedWeatherForeCast)]
+    public WeatherForecast Get(string id)
+    {
+        return new WeatherForecast()
+        {
+            Date = DateOnly.FromDateTime(DateTime.Now),
+            TemperatureC = Random.Shared.Next(-20, 55),
+            Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+        };
     }
 }

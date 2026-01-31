@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Authorization;
+using WebApiAuthentication.Api.Authorization;
+using WebApiAuthentication.Api.Repositories;
 using WebApiAuthentication.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,9 +31,17 @@ builder.Services.AddAuthentication("Bearer")
 //    });
 //});
 
+builder.Services.AddScoped<IWeatherForecastRepository, WeatherForecastRepository>();
+builder.Services.AddScoped<IAuthorizationHandler, MustHaveCreatedWeatherForecastHandler>();
+
 builder.Services.AddAuthorization(AuthorizationOptions =>
 {
     AuthorizationOptions.AddPolicy(AuthorizationPolicies.MustHaveGoldSubscriptionAndBeOver21, AuthorizationPolicies.MustBeGoldAndOlderThan21());
+    AuthorizationOptions.AddPolicy(PolicyMetadata.MustHaveCreatedWeatherForeCast, policyBuilder =>
+    {
+        policyBuilder.RequireAuthenticatedUser();
+        policyBuilder.AddRequirements(new MustHaveCreatedWeatherForecastRequirement());
+    });
 });
 
 var app = builder.Build();
