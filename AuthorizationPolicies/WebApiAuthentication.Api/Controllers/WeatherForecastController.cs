@@ -36,7 +36,8 @@ public class WeatherForecastController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    [Authorize(Policy = PolicyMetadata.MustHaveCreatedWeatherForeCast)]
+    //[Authorize(Policy = PolicyMetadata.MustHaveCreatedWeatherForeCast)]
+    [MustHaveCreatedWeatherForecast]
     public WeatherForecast Get(string id)
     {
         return new WeatherForecast()
